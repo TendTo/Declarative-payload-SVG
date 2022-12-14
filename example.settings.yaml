@@ -1,0 +1,19 @@
+unit: bits
+textColor: '#000'
+bgColor: '#000'
+strokeColor: '#000'
+items:
+  - id: ping
+    components:
+      - name: file length
+        unit: bits
+        length: 15
+      - name: file name
+        unit: bytes
+        length: 16
+links:
+  - type: xor
+    from:
+      - ping
+      - pong
+    to: pung

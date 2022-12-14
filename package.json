@@ -1,0 +1,72 @@
+{
+  "name": "dp-svg",
+  "version": "0.0.1",
+  "description": "Generate SVGs images from a short description of a network package or similarly structured data",
+  "author": "TendTo",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/cjs/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "lib"
+  ],
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "serve": "http-server ./public -p 3000 -c-1",
+    "serve:dev": "concurrently \"npm:watch\" \"npm:serve\" ",
+    "serve:docs": "http-server ./docs -p 8080 -c-1",
+    "watch": "rollup -c config/rollup.test.config.js -w",
+    "prepare": "husky install",
+    "test": "concurrently \"npm:test:*\"",
+    "pretest:e2e": "npm run build:dev",
+    "test:e2e": "playwright test --config=config/playwright.config.ts tests/e2e",
+    "test:unit": "mocha -r ts-node/register tests/unit -r tsconfig-paths/register --recursive --extension .test.ts --timeout 60000 --exit",
+    "clean": "rimraf dist lib",
+    "prebuild": "npm run clean",
+    "build": "rollup -c config/rollup.config.js",
+    "postbuild": "tsc --emitDeclarationOnly",
+    "build:dev": "rollup -c config/rollup.test.config.js",
+    "format": "prettier --config .prettierrc 'src/**/*.ts' 'test/**/*.ts' --write",
+    "lint": "eslint --ext=.tsx,.ts .",
+    "lint-staged": "lint-staged -c config/.lintstagedrc.json",
+    "docs": "npx typedoc --options typedoc.json",
+    "prepack": "npm run build",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "@knodes/typedoc-plugin-pages": "^0.23.1",
+    "@playwright/test": "^1.25.2",
+    "@rollup/plugin-typescript": "^8.5.0",
+    "@types/chai": "^4.3.3",
+    "@types/mocha": "^9.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
+    "@typescript-eslint/parser": "^5.36.2",
+    "chai": "^4.3.6",
+    "concurrently": "^7.4.0",
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "http-server": "^14.1.1",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "mocha": "^10.0.0",
+    "prettier": "^2.7.1",
+    "rollup": "^2.79.0",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-terser": "^7.0.2",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.1",
+    "tslib": "^2.4.0",
+    "typedoc": "^0.23.14",
+    "typedoc-plugin-missing-exports": "^1.0.0",
+    "typescript": "^4.8.2"
+  }
+}
